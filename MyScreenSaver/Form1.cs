@@ -15,6 +15,7 @@ namespace MyScreenSaver
         private Star[] stars = new Star[15000];
         private Random random = new Random();
         private Graphics graphics;
+        private float k = 10;
 
 
         public Form1()
@@ -35,7 +36,7 @@ namespace MyScreenSaver
 
         private void MoveStar(Star star)
         {
-            star.Z -= 10;
+            star.Z -= k;
             if (star.Z < 1)
             {
                 star.X = random.Next(-pictureBox1.Width, pictureBox1.Width);
@@ -47,6 +48,7 @@ namespace MyScreenSaver
         private void DrawStar(Star star)
         {
             float starSize = Map(star.Z, 0, pictureBox1.Width, 7, 0);
+            //float starSize = 7;
             float x = Map(star.X / star.Z, 0, 1, 0, pictureBox1.Width) + pictureBox1.Width / 2;
             float y = Map(star.Y / star.Z, 0, 1, 0, pictureBox1.Height) + pictureBox1.Height / 2;
             //float z = star.Z + 1;
@@ -55,7 +57,7 @@ namespace MyScreenSaver
 
         private float Map(float n, float start1, float stop1, float start2, float stop2)
         {
-            return ((n - start1) / (stop1 - start1)) * (stop2 - start2) + start2;
+            return ((n - start1) / (stop1 - start1)) * (stop2 - start2) + start2; // +500
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -73,6 +75,31 @@ namespace MyScreenSaver
                 };
             }
             timer1.Start();
+        }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Up)
+            {
+                k += 1;
+            }
+            if (e.KeyData == Keys.Down)
+            {
+                k -= 1;
+            }
+            if (k > 50)
+            {
+                k = 50;
+            }
+            if (k < 5)
+            {
+                k = 5;
+            }
+        }
+
+        private void Form1_KeyUp(object sender, KeyEventArgs e)
+        {
+            
         }
     }
 }
